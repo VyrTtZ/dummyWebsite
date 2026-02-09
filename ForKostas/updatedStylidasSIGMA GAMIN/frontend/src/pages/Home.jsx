@@ -7,12 +7,6 @@ export default function Home() {
       <p>This is a dummy page to verify your React setup is working.</p>
       <button
         onClick={() => alert("Button clicked! 🎉")}
-        style={{
-          padding: "0.5rem 1rem",
-          fontSize: "1rem",
-          cursor: "pointer",
-          marginTop: "1rem"
-        }}
       >
         Click me
       </button>
