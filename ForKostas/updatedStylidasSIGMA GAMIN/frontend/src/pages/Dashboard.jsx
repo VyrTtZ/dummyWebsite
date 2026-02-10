@@ -1,8 +1,10 @@
+import React from "react";
+
 export default function Dashboard() {
   return (
-    <div className="ui container">
-      <h1 className="ui header">Dashboard</h1>
-      <button className="ui primary button">Click</button>
+    <div style={{ padding: "2rem", textAlign: "center" }}>
+      <h1>Dashboard</h1>
+      <p>If you see this, routing works 🎯</p>
     </div>
   );
 }
