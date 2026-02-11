@@ -4,11 +4,33 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    //e.preventDefault();
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+
     console.log("EMAIL:", email);
     console.log("PASSWORD:", password);
-  };
+    const response = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      headers: {
+        
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
+
+    const data = await response.json();
+
+    console.log("Server response:", data);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
 
   return (
     <form onSubmit={handleSubmit}>
