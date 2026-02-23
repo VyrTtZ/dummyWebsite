@@ -1,21 +1,23 @@
 import express from "express";
+import jwt from "jsonwebtoken";
 import cors from "cors";
-import routes from "./routes.js"; // <-- import your router
+import routes from "./routes.js";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use("/api", routes); // <-- attach your router
+app.use("/api", routes);
 
-// Test route
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-// Start server
+app.use("/", routes);
+
+
+
 const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
