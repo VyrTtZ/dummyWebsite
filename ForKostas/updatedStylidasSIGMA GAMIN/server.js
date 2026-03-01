@@ -2,6 +2,7 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 import routes from "./routes.js";
+import pool from "./backend/config/db.js";
 
 const app = express();
 
@@ -16,6 +17,18 @@ app.get("/", (req, res) => {
 
 app.use("/", routes);
 
+app.get('/test', (req, res) => {
+  pool.query('INSERT INTO usersdummywebpage (userID, userName, userEmail, userPassword) VALUES (?, ?, ?, ?)', 
+    ['123', 'Tom B. Erichsen', '123@123', 'secret'], (err, results) => {
+    if (err) throw err;
+    console.log("Insertion successful:", results);
+  });
+  pool.query('SELECT * FROM usersdummywebpage', (err, results) => {
+    if (err) throw err;
+    res.json(results);
+    console.log("Database connection successful, query result:", results);
+  });
+});
 
 
 const PORT = 5000;
