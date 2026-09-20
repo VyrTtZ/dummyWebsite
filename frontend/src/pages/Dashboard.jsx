@@ -1,10 +1,29 @@
-import React from "react";
+import {useState, useEffect} from "react";
+import {getProducts} from "/src/services/api.js";
 
-export default function Dashboard() {
-  return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
+function Dashboard(){
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() =>{
+    getProducts()
+    .then((res) => setProducts(res.data))
+    .catch((err) => console.error(err))
+    .finally(() => setLoading(false));
+  }, []);
+
+  if(loading) return <p>Loading</p>
+
+  return(
+    <div>
       <h1>Dashboard</h1>
-      <p>If you see this, routing works 🎯</p>
+      <ul>
+        {products.map((product) =>(
+          <li key={products.id}>{products.name}</li>
+        ))}
+      </ul>
     </div>
-  );
+  )
 }
+
+export default Dashboard;
