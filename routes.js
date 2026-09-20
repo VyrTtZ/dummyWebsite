@@ -1,5 +1,5 @@
 import express from "express";
-import { login } from "../updatedStylidasSIGMA GAMIN/backend/controllers/auth.controller.js";
+import { login } from "../dummyWebsite/backend/controllers/auth.controller.js";
 
 const router = express.Router();
 

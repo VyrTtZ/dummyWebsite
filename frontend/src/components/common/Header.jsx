@@ -2,12 +2,12 @@ import { Link } from "react-router-dom";
 
 const Header = ({ isLoggedIn, setIsLoggedIn }) => {
   return (
-    <nav>
+    <nav class="ui three item menu">
       {!isLoggedIn ? (
         <>
-          <Link to="/">Home</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
+          <Link to="/" class="item">Home</Link>
+          <Link to="/login" class="item">Login</Link>
+          <Link to="/register" class="item">Register</Link>
         </>
       ) : (
         <>

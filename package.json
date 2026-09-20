@@ -12,9 +12,12 @@
       "@angular/core": "^21.1.2",
       "axios": "^1.4.0",
       "bcrypt": "^6.0.0",
-      "cors": "^2.8.5",
-      "express": "^4.21.2",
+      "cors": "^2.8.6",
+      "dotenv": "^18.0.1",
+      "ejs": "^6.0.1",
+      "express": "^4.22.3",
       "jsonwebtoken": "^9.0.3",
+      "mongodb": "^7.6.0",
       "mysql": "^2.18.1"
    },
    "devDependencies": {

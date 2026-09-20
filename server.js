@@ -1,37 +1,60 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import cors from "cors";
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
 import routes from "./routes.js";
-import pool from "./backend/config/db.js";
+
+dotenv.config();
 
 const app = express();
+const PORT = 8000;
+
+
+const client = new MongoClient(process.env.MONGODB_URI);
+let db;
+
+async function connectDB() {
+  await client.connect();
+  db = client.db("dummyWebsiteDB"); // set DB_NAME in .env if needed
+  console.log("Connected to MongoDB");
+}
+
+
+app.use((req, res, next) => {
+  req.db = db;
+  next();
+});
+
 
 app.use(cors());
 app.use(express.json());
 
-app.use("/api", routes);
 
 app.get("/", (req, res) => {
   res.send("Server is running");
 });
 
-app.use("/", routes);
+app.use("/api", routes);
 
-app.get('/test', (req, res) => {
-  pool.query('INSERT INTO usersdummywebpage (userID, userName, userEmail, userPassword) VALUES (?, ?, ?, ?)', 
-    ['123', 'Tom B. Erichsen', '123@123', 'secret'], (err, results) => {
-    if (err) throw err;
-    console.log("Insertion successful:", results);
-  });
-  pool.query('SELECT * FROM usersdummywebpage', (err, results) => {
-    if (err) throw err;
-    res.json(results);
-    console.log("Database connection successful, query result:", results);
-  });
+
+app.get("/test", async (req, res) => {
+  try {
+    const docs = await db.collection("myCollection").find({}).toArray();
+    res.json(docs);
+  } catch (err) {
+    console.error("Query failed:", err);
+    res.status(500).json({ error: "Database query failed" });
+  }
 });
 
-
-const PORT = 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// --- Start server after DB connects ---
+connectDB()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Failed to connect to MongoDB:", err);
+    process.exit(1);
+  });
